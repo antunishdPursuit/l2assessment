@@ -6,10 +6,10 @@ import Groq from 'groq-sdk';
  */
 
 // Initialize Groq client
-const groq = new Groq({
+const groq = import.meta.env.VITE_GROQ_API_KEY ? new Groq({
   apiKey: import.meta.env.VITE_GROQ_API_KEY,
   dangerouslyAllowBrowser: true // Required for browser-based calls (not recommended for production!)
-});
+}) : null;
 
 /**
  * Categorize a customer support message using Groq AI
@@ -18,6 +18,7 @@ const groq = new Groq({
  * @returns {Promise<{category: string, reasoning: string}>}
  */
 export async function categorizeMessage(message) {
+  if (!groq) return { ...getMockCategorization(message), source: 'offline' };
   try {
     const response = await groq.chat.completions.create({
       model: "llama-3.3-70b-versatile",
@@ -32,9 +33,7 @@ export async function categorizeMessage(message) {
 
     const content = response.choices[0].message.content;
     
-    const lines = content.split('\n');
     let category = "Unknown";
-    let reasoning = content;
     
     if (content.toLowerCase().includes('billing')) {
       category = "Billing Issue";
@@ -48,11 +47,12 @@ export async function categorizeMessage(message) {
     
     return {
       category,
-      reasoning: content
+      reasoning: content,
+      source: 'ai'
     };
   } catch (error) {
     console.warn('Groq API failed, using mock response:', error.message);
-    return getMockCategorization(message);
+    return { ...getMockCategorization(message), source: 'offline' };
   }
 }
 

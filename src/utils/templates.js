@@ -1,43 +1,23 @@
-/**
- * Recommendation Templates - Maps categories to recommended actions
- */
-
+/** Suggested next steps only: this app does not send or assign tickets. */
 const actionTemplates = {
-  "Billing Issue": "Ask user to check billing portal.",
-  "Technical Problem": "Suggest user to restart their browser.",
-  "General Inquiry": "Respond with FAQ link.",
-  "Feature Request": "Ask user to check billing portal.",
-  "Unknown": "Review manually."
+  'Billing Issue': 'Route to billing support to investigate the charge, payment, or subscription issue.',
+  'Technical Problem': 'Route to technical support. Collect the error, affected workflow, and steps to reproduce.',
+  'General Inquiry': 'Route to customer support for an answer or a relevant help article.',
+  'Feature Request': 'Log the request for the product team and acknowledge the customer’s feedback.',
+  'Unknown': 'Review manually and ask for details before choosing a team.',
 }
 
-/**
- * Get recommended action for a given category
- * 
- * @param {string} category - The message category
- * @param {string} urgency - The urgency level
- * @returns {string} - Recommended next step
- */
 export function getRecommendedAction(category, urgency) {
-  return actionTemplates[category] || "No recommendation available."
+  if (urgency === 'High') {
+    return 'Escalate to the support lead immediately to confirm impact and coordinate the responsible team. Verify the category before routing.'
+  }
+  return actionTemplates[category] || actionTemplates.Unknown
 }
 
-/**
- * Get all available categories
- * 
- * @returns {string[]} - List of categories
- */
 export function getAvailableCategories() {
   return Object.keys(actionTemplates)
 }
 
-/**
- * Determines if message should be escalated
- * 
- * @param {string} category - The message category
- * @param {string} urgency - The urgency level
- * @param {string} message - The original message
- * @returns {boolean} - Whether to escalate
- */
-export function shouldEscalate(category, urgency, message) {
-  return message.length > 100
+export function shouldEscalate(category, urgency) {
+  return urgency === 'High' || category === 'Unknown'
 }

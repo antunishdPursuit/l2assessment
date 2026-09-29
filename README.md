@@ -1,5 +1,23 @@
 # Customer Inbox Triage App
 
+## Week 2 assessment update
+
+See [ASSESSMENT.md](ASSESSMENT.md) for the three prioritized issues, baseline evidence,
+implemented changes, test results, and remaining limitations.
+
+To run offline without an API key:
+
+```sh
+npm ci
+npm run dev
+```
+
+Leave `VITE_GROQ_API_KEY` unset. Results are labeled **Offline estimate** and use
+keyword categorization, not an LLM. Use synthetic messages for this assessment.
+
+Checks: `npm test`, `npm run lint`, and `npm run build`.
+No tickets are actually assigned or sent; routing is a suggested next step.
+
 ## Overview
 
 The Customer Inbox Triage app is a lightweight AI-powered tool that helps classify customer support messages and recommend actions. It uses Groq AI to categorize messages, applies rule-based urgency scoring, and suggests next steps based on predefined templates.
@@ -18,7 +36,7 @@ Support teams waste time manually reading and triaging customer messages. This t
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js 22.12 or higher (tested with 22.23.2; see `.nvmrc`)
 - npm or yarn
 - Groq API key (FREE - get from https://console.groq.com)
 
