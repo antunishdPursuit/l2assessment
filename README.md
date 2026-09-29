@@ -29,7 +29,7 @@ Support teams waste time manually reading and triaging customer messages. This t
 ## Tech Stack
 
 - **Frontend**: React + Vite + Tailwind CSS
-- **AI**: Groq API (Llama 3.3 70B - Free tier)
+- **AI**: Groq API (openai/gpt-oss-20b)
 - **Runtime**: Browser-based (local development only)
 
 ## Setup Instructions
@@ -38,7 +38,7 @@ Support teams waste time manually reading and triaging customer messages. This t
 
 - Node.js 22.12 or higher (tested with 22.23.2; see `.nvmrc`)
 - npm or yarn
-- Groq API key (FREE - get from https://console.groq.com)
+- Groq API key (get from https://console.groq.com)
 
 ### Installation
 
@@ -65,9 +65,9 @@ Support teams waste time manually reading and triaging customer messages. This t
    VITE_GROQ_API_KEY=gsk_your-actual-key-here
    ```
    
-   Get your FREE API key from: https://console.groq.com/keys
+   Get your API key from: https://console.groq.com/keys
    
-   **Why Groq?** Groq offers a generous free tier with fast inference and no credit card required!
+   Model access and usage limits depend on your Groq account. See [Groq setup](GROQ-SETUP.md).
 
 4. **Run the application**
    ```bash
@@ -81,7 +81,7 @@ Support teams waste time manually reading and triaging customer messages. This t
 1. **Paste Message**: User pastes a customer support message into the text area
 2. **Analyze**: Click "Analyze Message" to process the input
 3. **Classification**: The app runs three processes in parallel:
-   - **Category Classification** (LLM): Uses Groq AI (Llama 3.3 70B) to categorize the message
+   - **Category Classification** (LLM): Uses Groq AI (openai/gpt-oss-20b) to categorize the message
    - **Urgency Scoring** (Rule-based): Applies simple rules to determine urgency
    - **Recommendation** (Template-based): Maps category to a recommended action
 4. **Display Results**: Shows category, urgency tag, recommended action, and AI reasoning
@@ -125,14 +125,6 @@ The dashboard won't load when I try to access it. I've tried refreshing but it k
 ## Security Note
 
 ⚠️ **Warning**: This application exposes the Groq API key in the browser (using `dangerouslyAllowBrowser: true`). This is acceptable for local development only but should **NEVER** be done in production. In a real application, API calls should be made from a secure backend server.
-
-## Why Groq?
-
-- ✅ **Completely Free** - No credit card required
-- ✅ **Fast Inference** - Groq's LPU technology is incredibly fast
-- ✅ **Generous Limits** - ~14,400 requests/day on free tier
-- ✅ **High Quality** - Llama 3.3 70B performs excellently
-- ✅ **Easy Signup** - Get started in minutes at https://console.groq.com
 
 ## License
 
