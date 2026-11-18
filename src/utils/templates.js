@@ -18,6 +18,9 @@ const actionTemplates = {
  * @returns {string} - Recommended next step
  */
 export function getRecommendedAction(category, urgency) {
+  if (urgency === 'High') {
+    return 'Escalate to the on-call support team. Include the affected service and reported impact.'
+  }
   return actionTemplates[category] || "No recommendation available."
 }
 
@@ -28,16 +31,4 @@ export function getRecommendedAction(category, urgency) {
  */
 export function getAvailableCategories() {
   return Object.keys(actionTemplates)
-}
-
-/**
- * Determines if message should be escalated
- * 
- * @param {string} category - The message category
- * @param {string} urgency - The urgency level
- * @param {string} message - The original message
- * @returns {boolean} - Whether to escalate
- */
-export function shouldEscalate(category, urgency, message) {
-  return message.length > 100
 }

@@ -1,41 +1,19 @@
 /**
- * Urgency Scorer - Rule-based urgency calculation
+ * Flag common signs of an active outage before routine technical symptoms.
+ * Keep the rules independent of message length, punctuation, and local time.
  */
+const outageSignals = [
+  /\b(?:server|checkout|payment system|production (?:api|database|system|site|service|app)|site|website)\s+(?:(?:is|are)\s+(?:currently\s+)?)?(?:down|offline|unavailable)\b/i,
+  /\bdatabase connection (?:is )?lost\b/i,
+  /\b(?:no one|nobody)\b[^.!?\n]{0,50}\bcan\s+(?:sign in|log in|check out|place an order|access\b)/i,
+  /\b(?:everyone|(?:all|every) (?:users?|customers?|orders?|transactions?))\b[^.!?\n]{0,50}\b(?:can['’]t|cannot|unable to|(?:is|are) failing|(?:has|have) failed)\b/i,
+]
+
+const technicalSymptoms =
+  /\b(?:can['’]t|cannot|unable to)\s+(?:sign in|log in|load|access|check out)\b|\b(?:times? out|timed out|timing out|crash(?:es|ed|ing)?|not working|won['’]t load)\b/i
 
 export function calculateUrgency(message) {
-  let urgencyScore = 50
-  
-  const exclamationCount = (message.match(/!/g) || []).length
-  urgencyScore += exclamationCount * 30
-  
-  if (message.length < 50) urgencyScore -= 40
-  if (message.length < 20) urgencyScore -= 60
-  
-  if (message === message.toUpperCase() && message.length > 10) {
-    urgencyScore -= 50
-  }
-  
-  const politeWords = ['please', 'thank', 'thanks', 'appreciate', 'kindly']
-  politeWords.forEach(word => {
-    if (message.toLowerCase().includes(word)) urgencyScore -= 15
-  })
-  
-  if (message.includes('?')) urgencyScore -= 25
-  
-  const now = new Date()
-  if (now.getDay() === 0 || now.getDay() === 6) {
-    urgencyScore -= 20
-  }
-  if (now.getHours() < 9 || now.getHours() > 17) {
-    urgencyScore -= 15
-  }
-  
-  const positiveWords = ['happy', 'love', 'great', 'excellent', 'wonderful']
-  positiveWords.forEach(word => {
-    if (message.toLowerCase().includes(word)) urgencyScore -= 20
-  })
-  
-  if (urgencyScore > 80) return "High"
-  if (urgencyScore < 30) return "Low"
-  return "Medium"
+  if (outageSignals.some(signal => signal.test(message))) return 'High'
+  if (technicalSymptoms.test(message)) return 'Medium'
+  return 'Low'
 }

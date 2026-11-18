@@ -5,7 +5,7 @@
 ✅ **Completely Free** - No credit card required  
 ✅ **Fast** - Groq's LPU technology provides incredibly fast inference  
 ✅ **Generous Limits** - ~14,400 requests/day on free tier  
-✅ **High Quality** - Llama 3.3 70B model performs excellently  
+✅ **Model** - The app uses `openai/gpt-oss-120b`.
 
 ## Step-by-Step Setup
 
@@ -96,17 +96,7 @@ The mock mode uses realistic keyword-based categorization and works offline!
 
 ## Free Tier Limits
 
-Groq's free tier includes:
-
-- **~14,400 requests per day**
-- **30 requests per minute**
-- Access to multiple models including:
-  - Llama 3.3 70B (what this app uses)
-  - Llama 3.1 8B
-  - Mixtral 8x7B
-  - Gemma 2 9B
-
-This is more than enough for development and testing!
+Check [Groq rate limits](https://console.groq.com/docs/rate-limits) for current limits for `openai/gpt-oss-120b`.
 
 ## Need Help?
 

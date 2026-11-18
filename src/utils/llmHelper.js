@@ -20,7 +20,7 @@ const groq = new Groq({
 export async function categorizeMessage(message) {
   try {
     const response = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
+      model: "openai/gpt-oss-120b",
       messages: [
         {
           role: "user",
@@ -32,9 +32,7 @@ export async function categorizeMessage(message) {
 
     const content = response.choices[0].message.content;
     
-    const lines = content.split('\n');
     let category = "Unknown";
-    let reasoning = content;
     
     if (content.toLowerCase().includes('billing')) {
       category = "Billing Issue";
